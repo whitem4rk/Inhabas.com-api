@@ -21,20 +21,18 @@ import com.inhabas.api.domain.budget.domain.valueObject.Price;
 import com.inhabas.api.domain.menu.domain.Menu;
 
 @Entity
+@Getter
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "BUDGET_HISTORY")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorValue("BUDGET_HISTORY")
 public class BudgetHistory extends BaseBoard {
 
   @Embedded private Details details;
 
-  @Getter
   @Column(nullable = false, columnDefinition = "DATETIME(0)")
   private LocalDateTime dateUsed;
 
-  @Getter
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(
       name = "IN_CHARGE_USER_ID",
@@ -49,12 +47,13 @@ public class BudgetHistory extends BaseBoard {
   @AttributeOverride(name = "value", column = @Column(name = "OUTCOME", nullable = false))
   private Price outcome;
 
-  @Getter
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(
       name = "RECEIVED_USER_ID",
       foreignKey = @ForeignKey(name = "FK_MEMBER_OF_BUDGET_RECEIVED"))
   private Member memberReceived;
+
+  @Version private Long version;
 
   public String getDetails() {
     return details.getValue();

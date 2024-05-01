@@ -1,7 +1,5 @@
 package com.inhabas.api.domain.budget.domain.valueObject;
 
-import java.util.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
@@ -17,7 +15,7 @@ public class RejectReason {
   @Column(name = "REJECT_REASON", length = 200)
   private String value;
 
-  @Transient private final int MAX_LENGTH = 200;
+  @Transient private static final int MAX_LENGTH = 200;
 
   public RejectReason() {}
 
@@ -27,7 +25,7 @@ public class RejectReason {
   }
 
   private boolean validate(Object value) {
-    if (Objects.isNull(value)) return false;
+    if (value == null) return false;
     if (!(value instanceof String)) return false;
 
     String o = (String) value;

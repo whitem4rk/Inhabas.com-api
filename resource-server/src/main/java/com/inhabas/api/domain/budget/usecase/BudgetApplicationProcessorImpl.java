@@ -54,7 +54,6 @@ public class BudgetApplicationProcessorImpl implements BudgetApplicationProcesso
       case COMPLETED:
         application.complete(secretary);
         historyRepository.save(application.makeHistory(secretary, menu)); // application to history
-        applicationRepository.save(application);
         break;
     }
   }

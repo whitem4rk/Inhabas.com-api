@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.inhabas.api.auth.domain.oauth2.member.domain.entity.Member;
 import com.inhabas.api.auth.domain.oauth2.member.domain.valueObject.RequestStatus;
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Getter
@@ -36,6 +37,7 @@ public class BudgetApplicationDto {
   @NotNull private RequestStatus status;
 
   @Builder
+  @QueryProjection
   public BudgetApplicationDto(
       Long id, String title, Member applicant, LocalDateTime dateCreated, RequestStatus status) {
     this.id = id;

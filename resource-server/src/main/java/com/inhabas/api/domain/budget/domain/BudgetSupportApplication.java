@@ -21,6 +21,7 @@ import com.inhabas.api.domain.budget.exception.StatusNotFollowProceduresExceptio
 import com.inhabas.api.domain.menu.domain.Menu;
 
 @Entity
+@Getter
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "BUDGET_SUPPORT_APPLICATION")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,11 +31,9 @@ public class BudgetSupportApplication extends BaseBoard {
 
   @Embedded private Details details;
 
-  @Getter
   @Column(nullable = false, columnDefinition = "DATETIME(0)")
   private LocalDateTime dateUsed;
 
-  @Getter
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(
       name = "IN_CHARGE_USER_ID",
@@ -45,25 +44,25 @@ public class BudgetSupportApplication extends BaseBoard {
 
   @Embedded private Price outcome;
 
-  @Getter
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(
       name = "APPLICANT_USER_ID",
       foreignKey = @ForeignKey(name = "FK_MEMBER_OF_BUDGET_APPLICANT"))
   private Member applicant;
 
-  @Getter
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   private RequestStatus status;
 
-  @Getter @Embedded private RejectReason rejectReason;
+  @Embedded private RejectReason rejectReason;
 
   @Column(name = "DATE_CHECKED", columnDefinition = "DATETIME(0)")
   private LocalDateTime dateChecked;
 
   @Column(name = "DATE_DEPOSITED", columnDefinition = "DATETIME(0)")
   private LocalDateTime dateDeposited;
+
+  @Version private Long version;
 
   public String getDetails() {
     return details.getValue();
