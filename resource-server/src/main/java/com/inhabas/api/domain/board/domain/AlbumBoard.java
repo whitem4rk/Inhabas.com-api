@@ -1,8 +1,5 @@
 package com.inhabas.api.domain.board.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.*;
 
 import lombok.AccessLevel;
@@ -13,7 +10,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.inhabas.api.domain.board.domain.valueObject.Content;
 import com.inhabas.api.domain.board.domain.valueObject.Title;
-import com.inhabas.api.domain.comment.domain.Comment;
 import com.inhabas.api.domain.menu.domain.Menu;
 
 @Entity
@@ -25,9 +21,6 @@ import com.inhabas.api.domain.menu.domain.Menu;
 public class AlbumBoard extends BaseBoard {
 
   @Column private Content content;
-
-  @OneToMany(mappedBy = "parentBoard", cascade = CascadeType.ALL, orphanRemoval = true)
-  protected List<Comment> comments = new ArrayList<>();
 
   @Builder
   public AlbumBoard(String title, Menu menu, String content) {

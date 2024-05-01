@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import com.inhabas.api.domain.menu.domain.valueObject.MenuType;
+import com.querydsl.core.annotations.QueryProjection;
 
 @Getter
 @NoArgsConstructor
@@ -24,6 +25,7 @@ public class BoardCountDto {
   @NotNull @PositiveOrZero private Integer count;
 
   @Builder
+  @QueryProjection
   public BoardCountDto(
       Integer menuId, Integer priority, MenuType type, String menuName, Integer count) {
     this.menuId = menuId;

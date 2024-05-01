@@ -2,7 +2,6 @@ package com.inhabas.api.domain.board.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -22,7 +21,7 @@ import com.inhabas.api.domain.file.domain.BoardFile;
 import com.inhabas.api.domain.menu.domain.Menu;
 
 @Getter
-@Entity
+@Entity(name = "BASE_BOARD")
 @DiscriminatorColumn(name = "TYPE", length = 50)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -51,11 +50,11 @@ public abstract class BaseBoard extends BaseEntity {
 
   public <T extends BaseBoard> T writtenBy(Member writer, Class<T> boardClass) {
 
-    if (Objects.isNull(this.writer)) {
-      this.writer = writer;
-      if (!boardClass.isInstance(this)) {
+    if (this.writer == null) {
+      if (!BaseBoard.class.isAssignableFrom(boardClass)) {
         throw new InvalidInputException();
       }
+      this.writer = writer;
       return boardClass.cast(this);
     } else {
       throw new WriterUnmodifiableException();
@@ -75,7 +74,7 @@ public abstract class BaseBoard extends BaseEntity {
     this.menu = menu;
   }
 
-  public void addFile(BoardFile file) {
+  private void addFile(BoardFile file) {
     if (this.files == null) {
       this.files = new ArrayList<>();
     }

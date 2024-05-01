@@ -8,7 +8,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 import com.inhabas.api.domain.board.dto.BoardCountDto;
-import com.querydsl.core.types.Projections;
+import com.inhabas.api.domain.board.dto.QBoardCountDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @RequiredArgsConstructor
@@ -20,8 +20,7 @@ public class BaseBoardRepositoryImpl implements BaseBoardRepositoryCustom {
   public List<BoardCountDto> countRowsGroupByMenuName(Integer menuGroupId) {
     return queryFactory
         .select(
-            Projections.constructor(
-                BoardCountDto.class,
+            new QBoardCountDto(
                 menu.id,
                 menu.priority,
                 menu.type,
