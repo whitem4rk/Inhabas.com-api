@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import lombok.RequiredArgsConstructor;
 
@@ -56,6 +55,6 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
   }
 
   private boolean isRootComment(Comment c) {
-    return Objects.isNull(c.getParentComment());
+    return c.getParentComment() == null;
   }
 }

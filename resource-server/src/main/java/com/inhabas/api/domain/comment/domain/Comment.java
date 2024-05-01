@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -20,6 +21,7 @@ import com.inhabas.api.domain.board.exception.WriterUnmodifiableException;
 import com.inhabas.api.domain.comment.domain.valueObject.Content;
 
 @Entity
+@Getter
 @Table(name = "COMMENT")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -61,22 +63,6 @@ public class Comment extends BaseEntity {
 
   /* getter */
 
-  public Long getId() {
-    return id;
-  }
-
-  public Member getWriter() {
-    return writer;
-  }
-
-  public BaseBoard getParentBoard() {
-    return parentBoard;
-  }
-
-  public Comment getParentComment() {
-    return parentComment;
-  }
-
   public List<Comment> getChildrenComment() {
     return Collections.unmodifiableList(childrenComment);
   }
@@ -85,29 +71,23 @@ public class Comment extends BaseEntity {
     return this.content.getValue();
   }
 
-  public Boolean getIsDeleted() {
-    return isDeleted;
-  }
-
-  public Long update(String content) {
+  public Long updateContent(String content) {
     this.content = new Content(content);
     return this.id;
   }
 
   /* relation methods */
 
-  public Comment toBoard(BaseBoard newBoard) {
-    if (Objects.nonNull(this.parentBoard))
+  public void toBoard(BaseBoard newBoard) {
+    if (this.parentBoard != null) {
       throw new IllegalStateException("댓글을 다른 게시글로 옮길 수 없습니다.");
-
+    }
     this.parentBoard = newBoard;
     newBoard.addComment(this);
-
-    return this;
   }
 
   public Comment writtenBy(Member writer) {
-    if (Objects.nonNull(writer)) this.writer = writer;
+    if (writer != null) this.writer = writer;
     else throw new WriterUnmodifiableException();
     return this;
   }
@@ -115,7 +95,6 @@ public class Comment extends BaseEntity {
   public Comment replyTo(Comment parentComment) {
     this.parentComment = parentComment;
     parentComment.addReply(this);
-
     return this;
   }
 
@@ -125,6 +104,10 @@ public class Comment extends BaseEntity {
 
   public void updateIsDeleted(Boolean isDeleted) {
     this.isDeleted = isDeleted;
+  }
+
+  public boolean isWrittenBy(Long writerId) {
+    return writer.isSameMember(writerId);
   }
 
   /* others */
@@ -151,9 +134,5 @@ public class Comment extends BaseEntity {
         getParentBoard(),
         getParentComment(),
         getChildrenComment());
-  }
-
-  public boolean isWrittenBy(Long writerId) {
-    return writer.isSameMember(writerId);
   }
 }

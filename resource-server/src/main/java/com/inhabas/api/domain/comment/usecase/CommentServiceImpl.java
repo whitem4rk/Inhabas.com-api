@@ -53,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
 
     Comment oldComment = commentRepository.findById(commentId).orElseThrow(NotFoundException::new);
 
-    return oldComment.update(commentUpdateDto.getContent());
+    return oldComment.updateContent(commentUpdateDto.getContent());
   }
 
   @Transactional
