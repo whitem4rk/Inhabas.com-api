@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Getter
@@ -41,6 +42,7 @@ public class ProjectBoardDto {
 
   @NotNull private Boolean isPinned;
 
+  @QueryProjection
   @Builder
   public ProjectBoardDto(
       Long id,

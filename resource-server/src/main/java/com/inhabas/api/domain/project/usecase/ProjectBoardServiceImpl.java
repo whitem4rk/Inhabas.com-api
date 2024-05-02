@@ -93,7 +93,7 @@ public class ProjectBoardServiceImpl implements ProjectBoardService {
         .dateUpdated(projectBoard.getDateUpdated())
         .images(classifiedFiles.getImages())
         .otherFiles(classifiedFiles.getOtherFiles())
-        .isPinned(projectBoard.getPinned())
+        .isPinned(projectBoard.getIsPinned())
         .build();
   }
 

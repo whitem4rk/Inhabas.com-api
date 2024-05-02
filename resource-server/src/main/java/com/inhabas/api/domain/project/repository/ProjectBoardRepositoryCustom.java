@@ -11,13 +11,13 @@ public interface ProjectBoardRepositoryCustom {
 
   List<ProjectBoardDto> findAllByTypeAndIsPinned(ProjectBoardType projectBoardType);
 
-  List<ProjectBoardDto> findAllByMemberIdAndTypeAndSearch(
-      Long memberId, ProjectBoardType projectBoardType, String search);
+  //  List<ProjectBoardDto> findAllByMemberIdAndTypeAndSearch(
+  //      Long memberId, ProjectBoardType projectBoardType, String search);
 
   List<ProjectBoardDto> findAllByTypeAndSearch(ProjectBoardType projectBoardType, String search);
 
-  Optional<ProjectBoard> findByMemberIdAndTypeAndId(
-      Long memberId, ProjectBoardType projectBoardType, Long boardId);
+  //  Optional<ProjectBoard> findByMemberIdAndTypeAndId(
+  //      Long memberId, ProjectBoardType projectBoardType, Long boardId);
 
   Optional<ProjectBoard> findByTypeAndId(ProjectBoardType projectBoardType, Long boardId);
 }
