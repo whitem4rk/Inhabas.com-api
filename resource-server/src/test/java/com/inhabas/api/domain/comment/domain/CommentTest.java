@@ -50,7 +50,7 @@ public class CommentTest {
 
     // when
     final String newContent = "new content";
-    comment.update(newContent);
+    comment.updateContent(newContent);
 
     // then
     Assertions.assertThat(comment.getContent()).isEqualTo(newContent);

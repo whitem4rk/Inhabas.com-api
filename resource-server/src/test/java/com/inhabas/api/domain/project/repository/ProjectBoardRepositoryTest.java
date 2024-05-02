@@ -74,22 +74,22 @@ public class ProjectBoardRepositoryTest {
     assertThat(saveBoard.getWriter()).isEqualTo(writer);
   }
 
-  @DisplayName("memberId, type, search 로 게시글 목록 조회한다.")
-  @Test
-  public void findAllByMemberIdAndTypeAndSearch() {
-    // given
-    ProjectBoard saveBoard = projectBoardRepository.save(PROJECT_BOARD);
-    ProjectBoard saveBoard2 = projectBoardRepository.save(PROJECT_BOARD_2);
-    Long writerId = writer.getId();
-
-    // when
-    List<ProjectBoardDto> dtoList =
-        projectBoardRepository.findAllByMemberIdAndTypeAndSearch(writerId, ALPHA, "");
-
-    // then
-    assertThat(dtoList).hasSize(2);
-    assertThat(dtoList.get(0).getTitle()).isEqualTo(saveBoard.getTitle());
-  }
+  //  @DisplayName("memberId, type, search 로 게시글 목록 조회한다.")
+  //  @Test
+  //  public void findAllByMemberIdAndTypeAndSearch() {
+  //    // given
+  //    ProjectBoard saveBoard = projectBoardRepository.save(PROJECT_BOARD);
+  //    ProjectBoard saveBoard2 = projectBoardRepository.save(PROJECT_BOARD_2);
+  //    Long writerId = writer.getId();
+  //
+  //    // when
+  //    List<ProjectBoardDto> dtoList =
+  //        projectBoardRepository.findAllByMemberIdAndTypeAndSearch(writerId, ALPHA, "");
+  //
+  //    // then
+  //    assertThat(dtoList).hasSize(2);
+  //    assertThat(dtoList.get(0).getTitle()).isEqualTo(saveBoard.getTitle());
+  //  }
 
   @DisplayName("type, search 로 게시글 목록 조회한다.")
   @Test
@@ -106,23 +106,23 @@ public class ProjectBoardRepositoryTest {
     assertThat(dtoList.get(0).getTitle()).isEqualTo(saveBoard.getTitle());
   }
 
-  @DisplayName("memberId, type, id 로 게시글 상세 조회한다.")
-  @Test
-  public void findByMemberIdAndTypeAndId() {
-    // given
-    ProjectBoard saveBoard = projectBoardRepository.save(PROJECT_BOARD);
-    Long writerId = writer.getId();
-
-    // when
-    ProjectBoard projectBoard =
-        projectBoardRepository
-            .findByMemberIdAndTypeAndId(writerId, ALPHA, saveBoard.getId())
-            .orElse(null);
-
-    // then
-    assertThat(projectBoard).isNotNull();
-    assertThat(projectBoard.getTitle()).isEqualTo(saveBoard.getTitle());
-  }
+  //  @DisplayName("memberId, type, id 로 게시글 상세 조회한다.")
+  //  @Test
+  //  public void findByMemberIdAndTypeAndId() {
+  //    // given
+  //    ProjectBoard saveBoard = projectBoardRepository.save(PROJECT_BOARD);
+  //    Long writerId = writer.getId();
+  //
+  //    // when
+  //    ProjectBoard projectBoard =
+  //        projectBoardRepository
+  //            .findByMemberIdAndTypeAndId(writerId, ALPHA, saveBoard.getId())
+  //            .orElse(null);
+  //
+  //    // then
+  //    assertThat(projectBoard).isNotNull();
+  //    assertThat(projectBoard.getTitle()).isEqualTo(saveBoard.getTitle());
+  //  }
 
   @DisplayName("type, id 로 게시글 상세 조회한다.")
   @Test

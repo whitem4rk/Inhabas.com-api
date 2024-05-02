@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
+import java.util.List;
+
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.inhabas.api.auth.domain.oauth2.member.domain.entity.Member;
@@ -66,12 +68,12 @@ class BaseBoardTest {
   }
 
   @Test
-  void addFileTest() {
+  void updateFilesTest() {
     // given
     BoardFile file = mock(BoardFile.class);
 
     // when
-    baseBoard.addFile(file);
+    baseBoard.updateFiles(List.of(file));
 
     // then
     assertThat(baseBoard.files.contains(file)).isTrue();
