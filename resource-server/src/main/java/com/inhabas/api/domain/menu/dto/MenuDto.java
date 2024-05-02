@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.inhabas.api.domain.menu.domain.Menu;
 import com.inhabas.api.domain.menu.domain.valueObject.MenuId;
 import com.inhabas.api.domain.menu.domain.valueObject.MenuType;
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Getter
@@ -35,6 +36,7 @@ public class MenuDto {
     this.description = description;
   }
 
+  @QueryProjection
   public MenuDto(Integer id, Integer priority, String name, MenuType type, String description) {
     this.id = new MenuId(id);
     this.priority = priority;

@@ -11,10 +11,9 @@ import lombok.RequiredArgsConstructor;
 
 import com.inhabas.api.domain.menu.domain.Menu;
 import com.inhabas.api.domain.menu.domain.valueObject.MenuId;
-import com.inhabas.api.domain.menu.dto.MenuDto;
 import com.inhabas.api.domain.menu.dto.MenuGroupDto;
+import com.inhabas.api.domain.menu.dto.QMenuDto;
 import com.querydsl.core.group.GroupBy;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @RequiredArgsConstructor
@@ -22,6 +21,7 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
 
   private final JPAQueryFactory jpaQueryFactory;
 
+  @Override
   public List<MenuGroupDto> findAllMenuByMenuGroup() {
     return jpaQueryFactory
         .from(menu)
@@ -31,8 +31,7 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
             GroupBy.groupBy(menu.menuGroup)
                 .as(
                     list(
-                        Projections.constructor(
-                            MenuDto.class,
+                        new QMenuDto(
                             menu.id,
                             menu.priority,
                             menu.name.value,
