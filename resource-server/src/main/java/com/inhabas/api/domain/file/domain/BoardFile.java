@@ -40,7 +40,7 @@ public class BoardFile extends BaseFile {
 
   // boardFile 과 baseBoard 의 연관관계 편의 메소드
   public <T extends BaseBoard> void toBoard(T newParentBoard) {
-    if (Objects.isNull(this.board)) {
+    if (this.board == null) {
       this.board = newParentBoard;
     } else if (!this.board.getId().equals(newParentBoard.getId())) {
       throw new InvalidInputException();
