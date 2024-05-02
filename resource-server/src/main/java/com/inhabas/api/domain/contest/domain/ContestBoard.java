@@ -2,7 +2,6 @@ package com.inhabas.api.domain.contest.domain;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -30,7 +29,6 @@ import com.inhabas.api.domain.board.domain.valueObject.Title;
 import com.inhabas.api.domain.comment.domain.Comment;
 import com.inhabas.api.domain.contest.domain.valueObject.Association;
 import com.inhabas.api.domain.contest.domain.valueObject.Topic;
-import com.inhabas.api.domain.file.domain.BoardFile;
 import com.inhabas.api.domain.menu.domain.Menu;
 
 @Entity
@@ -93,10 +91,6 @@ public class ContestBoard extends BaseBoard {
 
   public String getContent() {
     return content.getValue();
-  }
-
-  public List<BoardFile> getFiles() {
-    return Collections.unmodifiableList(files);
   }
 
   /* relation method */

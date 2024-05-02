@@ -6,15 +6,18 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 
+import lombok.Getter;
+
 import com.inhabas.api.auth.domain.error.businessException.InvalidInputException;
 
+@Getter
 @Embeddable
 public class Association {
 
   @Column(name = "ASSOCIATION", length = 100, nullable = false)
   private String value;
 
-  @Transient private final int MAX_LENGTH = 100;
+  @Transient private static final int MAX_LENGTH = 100;
 
   public Association() {}
 
@@ -30,9 +33,5 @@ public class Association {
     String o = (String) value;
     if (o.isBlank()) return false;
     return o.length() < MAX_LENGTH;
-  }
-
-  public String getValue() {
-    return value;
   }
 }

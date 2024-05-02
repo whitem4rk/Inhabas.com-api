@@ -13,5 +13,5 @@ public interface ContestBoardRepositoryCustom {
   List<ContestBoardDto> findAllByTypeAndFieldAndSearch(
       ContestType contestType, Long contestFieldId, String search, OrderBy orderBy);
 
-  public Optional<ContestBoard> findByTypeAndId(ContestType contestType, Long boardId);
+  Optional<ContestBoard> findByTypeAndId(ContestType contestType, Long boardId);
 }

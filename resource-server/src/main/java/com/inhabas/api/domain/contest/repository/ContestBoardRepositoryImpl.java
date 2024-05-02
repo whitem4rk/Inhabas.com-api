@@ -1,5 +1,9 @@
 package com.inhabas.api.domain.contest.repository;
 
+import static com.inhabas.api.domain.contest.domain.QContestBoard.contestBoard;
+import static com.inhabas.api.domain.contest.domain.QContestField.contestField;
+import static com.inhabas.api.domain.file.domain.QBoardFile.boardFile;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 
 import com.inhabas.api.domain.contest.domain.ContestBoard;
 import com.inhabas.api.domain.contest.domain.ContestType;
-import com.inhabas.api.domain.contest.domain.QContestBoard;
 import com.inhabas.api.domain.contest.domain.valueObject.OrderBy;
 import com.inhabas.api.domain.contest.dto.ContestBoardDto;
 import com.inhabas.api.global.util.ClassifiedFiles;
@@ -23,9 +26,9 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 public class ContestBoardRepositoryImpl implements ContestBoardRepositoryCustom {
 
   private final JPAQueryFactory queryFactory;
-  private QContestBoard contestBoard = QContestBoard.contestBoard;
 
   // 공모전 검색 및 필터링 기능
+  @Override
   public List<ContestBoardDto> findAllByTypeAndFieldAndSearch(
       ContestType contestType, Long contestFieldId, String search, OrderBy orderBy) {
 
@@ -42,7 +45,13 @@ public class ContestBoardRepositoryImpl implements ContestBoardRepositoryCustom 
     OrderSpecifier<?> order = orderBy.getOrderBy(contestBoard);
 
     List<ContestBoard> boards =
-        queryFactory.selectFrom(contestBoard).where(target).orderBy(order).fetch();
+        queryFactory
+            .selectFrom(contestBoard)
+            .leftJoin(contestBoard.contestField, contestField)
+            .fetchJoin()
+            .where(target)
+            .orderBy(order)
+            .fetch();
 
     return boards.stream()
         .map(
@@ -68,6 +77,10 @@ public class ContestBoardRepositoryImpl implements ContestBoardRepositoryCustom 
     return Optional.ofNullable(
         queryFactory
             .selectFrom(contestBoard)
+            .leftJoin(contestBoard.contestField, contestField)
+            .fetchJoin()
+            .leftJoin(contestBoard.files, boardFile)
+            .fetchJoin()
             .where((eqContestType(contestType)).and(contestBoard.id.eq(boardId)))
             .orderBy(contestBoard.dateCreated.desc())
             .fetchOne());

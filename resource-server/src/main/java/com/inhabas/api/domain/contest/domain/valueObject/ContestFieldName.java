@@ -14,7 +14,7 @@ public class ContestFieldName {
   @Column(name = "NAME", length = 15, nullable = false)
   private String value;
 
-  @Transient private final int MAX_LENGTH = 15;
+  @Transient private static final int MAX_LENGTH = 15;
 
   public ContestFieldName() {}
 
