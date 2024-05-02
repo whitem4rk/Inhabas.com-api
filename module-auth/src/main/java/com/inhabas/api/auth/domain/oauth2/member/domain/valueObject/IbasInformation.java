@@ -1,7 +1,6 @@
 package com.inhabas.api.auth.domain.oauth2.member.domain.valueObject;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -58,7 +57,7 @@ public class IbasInformation {
   }
 
   public boolean isCompleteToSignUp() {
-    return Objects.nonNull(this.dateJoined);
+    return this.dateJoined != null;
   }
 
   public void finishSignUp() {

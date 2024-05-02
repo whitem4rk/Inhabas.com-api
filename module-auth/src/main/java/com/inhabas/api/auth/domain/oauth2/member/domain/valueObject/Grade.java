@@ -1,7 +1,5 @@
 package com.inhabas.api.auth.domain.oauth2.member.domain.valueObject;
 
-import java.util.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -24,7 +22,7 @@ public class Grade {
   }
 
   boolean validate(Object value) {
-    if (Objects.isNull(value)) return true;
+    if (value == null) return true;
     if (!(value instanceof Integer)) return false;
     int o = (Integer) value;
     return 0 <= o && o <= 5; // 1학년부터 5학년(초과학기)까지 가능, 0학년은 학생이 아닐때

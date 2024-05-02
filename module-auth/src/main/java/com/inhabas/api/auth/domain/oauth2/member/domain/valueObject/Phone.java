@@ -1,6 +1,5 @@
 package com.inhabas.api.auth.domain.oauth2.member.domain.valueObject;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 import javax.persistence.Column;
@@ -27,7 +26,7 @@ public class Phone {
   }
 
   private boolean validate(Object value) {
-    if (Objects.isNull(value)) return false;
+    if (value == null) return false;
     if (!(value instanceof String)) return false;
     String o = (String) value;
     return PHONE_PATTERN.matcher(o).matches(); // only 010-****-****

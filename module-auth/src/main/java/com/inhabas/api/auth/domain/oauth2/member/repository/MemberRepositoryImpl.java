@@ -10,9 +10,6 @@ import java.util.Objects;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.inhabas.api.auth.domain.oauth2.OAuth2Provider;
 import com.inhabas.api.auth.domain.oauth2.member.domain.entity.Member;
 import com.inhabas.api.auth.domain.oauth2.member.domain.valueObject.MemberType;
@@ -26,8 +23,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-@Repository
-@Transactional
 @RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
 

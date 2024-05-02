@@ -5,10 +5,12 @@ import java.util.Objects;
 import javax.persistence.*;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import com.inhabas.api.auth.domain.oauth2.majorInfo.domain.valueObject.Major;
 
+@Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SchoolInformation {
@@ -54,10 +56,6 @@ public class SchoolInformation {
 
   public Integer getGeneration() {
     return this.generation.getValue();
-  }
-
-  public MemberType getMemberType() {
-    return this.memberType;
   }
 
   public void setMemberType(MemberType memberType) {

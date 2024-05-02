@@ -1,7 +1,5 @@
 package com.inhabas.api.auth.domain.oauth2.member.domain.valueObject;
 
-import java.util.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
@@ -24,7 +22,7 @@ public class Name {
   }
 
   private boolean validate(Object value) {
-    if (Objects.isNull(value)) return false;
+    if (value == null) return false;
     if (!(value instanceof String)) return false;
 
     String o = (String) value;

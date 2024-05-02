@@ -130,10 +130,6 @@ public class Member {
     return this.ibasInformation.getRole();
   }
 
-  public boolean isDeleted() {
-    return this.isDeleted;
-  }
-
   public void setName(String name) {
     this.name = new Name(name);
   }

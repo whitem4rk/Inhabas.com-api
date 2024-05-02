@@ -1,5 +1,6 @@
 package com.inhabas.api.auth.domain.oauth2.member.repository;
 
+import static com.inhabas.api.auth.domain.oauth2.member.domain.entity.QMember.member;
 import static com.inhabas.api.auth.domain.oauth2.member.domain.entity.QUpdateNameRequest.updateNameRequest;
 import static com.inhabas.api.auth.domain.oauth2.member.domain.valueObject.RequestStatus.*;
 
@@ -43,6 +44,8 @@ public class UpdateNameRequestRepositoryImpl implements UpdateNameRequestReposit
 
     return queryFactory
         .selectFrom(updateNameRequest)
+        .leftJoin(updateNameRequest.member, member)
+        .fetchJoin()
         .orderBy(ORDER_BY_STATUS, orderByDateRequested)
         .fetch();
   }
@@ -53,6 +56,8 @@ public class UpdateNameRequestRepositoryImpl implements UpdateNameRequestReposit
 
     return queryFactory
         .selectFrom(updateNameRequest)
+        .leftJoin(updateNameRequest.member, member)
+        .fetchJoin()
         .where(updateNameRequest.member.id.eq(memberId))
         .orderBy(ORDER_BY_STATUS, orderByDateRequested)
         .fetch();
