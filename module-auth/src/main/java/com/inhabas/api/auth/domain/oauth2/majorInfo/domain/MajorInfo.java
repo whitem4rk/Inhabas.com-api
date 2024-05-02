@@ -3,7 +3,10 @@ package com.inhabas.api.auth.domain.oauth2.majorInfo.domain;
 import javax.persistence.*;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.inhabas.api.auth.domain.oauth2.majorInfo.domain.valueObject.College;
 import com.inhabas.api.auth.domain.oauth2.majorInfo.domain.valueObject.Major;
@@ -15,8 +18,10 @@ import com.inhabas.api.auth.domain.oauth2.member.domain.entity.Member;
  *
  * @see Member
  */
+@Getter
 @Entity
 @Table(name = "MAJOR")
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MajorInfo {
 
@@ -31,10 +36,6 @@ public class MajorInfo {
   public MajorInfo(String college, String major) {
     this.college = new College(college);
     this.major = new Major(major);
-  }
-
-  public Integer getId() {
-    return id;
   }
 
   public String getCollege() {
