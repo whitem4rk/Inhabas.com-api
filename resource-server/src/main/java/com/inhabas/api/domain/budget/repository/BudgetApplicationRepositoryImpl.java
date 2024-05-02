@@ -1,5 +1,6 @@
 package com.inhabas.api.domain.budget.repository;
 
+import static com.inhabas.api.auth.domain.oauth2.member.domain.entity.QMember.member;
 import static com.inhabas.api.domain.budget.domain.QBudgetSupportApplication.budgetSupportApplication;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public class BudgetApplicationRepositoryImpl implements BudgetApplicationReposit
                 budgetSupportApplication.dateCreated,
                 budgetSupportApplication.status))
         .from(budgetSupportApplication)
+        .leftJoin(budgetSupportApplication.applicant, member)
+        .fetchJoin()
         .where(sameStatus(status))
         .orderBy(
             budgetSupportApplication.dateUsed.desc(), budgetSupportApplication.dateCreated.desc())

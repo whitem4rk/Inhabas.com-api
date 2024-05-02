@@ -25,7 +25,6 @@ import com.inhabas.api.domain.menu.domain.Menu;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "BUDGET_SUPPORT_APPLICATION")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorValue("BUDGET_APPLICATION")
 public class BudgetSupportApplication extends BaseBoard {
 
