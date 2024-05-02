@@ -1,5 +1,6 @@
 package com.inhabas.api.domain.comment.repository;
 
+import static com.inhabas.api.auth.domain.oauth2.member.domain.entity.QMember.member;
 import static com.inhabas.api.domain.comment.domain.QComment.comment;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 
 import com.inhabas.api.domain.comment.domain.Comment;
+import com.inhabas.api.domain.comment.domain.QComment;
 import com.inhabas.api.domain.comment.dto.CommentDetailDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -17,15 +19,16 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 public class CommentRepositoryImpl implements CustomCommentRepository {
 
   private final JPAQueryFactory queryFactory;
+  private final QComment parentComment = new QComment("parentComment");
 
   @Override
   public List<CommentDetailDto> findAllByParentBoardIdOrderByCreated(Long boardId) {
     List<Comment> comments =
         queryFactory
             .selectFrom(comment)
-            .innerJoin(comment.writer)
+            .innerJoin(comment.writer, member)
             .fetchJoin()
-            .leftJoin(comment.parentComment)
+            .leftJoin(comment.parentComment, parentComment)
             .fetchJoin()
             .where(comment.parentBoard.id.eq(boardId))
             .orderBy(
