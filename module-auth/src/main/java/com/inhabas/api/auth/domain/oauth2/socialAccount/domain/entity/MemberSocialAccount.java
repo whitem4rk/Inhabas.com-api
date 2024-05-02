@@ -3,13 +3,17 @@ package com.inhabas.api.auth.domain.oauth2.socialAccount.domain.entity;
 import javax.persistence.*;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.inhabas.api.auth.domain.oauth2.OAuth2Provider;
 import com.inhabas.api.auth.domain.oauth2.member.domain.entity.Member;
 import com.inhabas.api.auth.domain.oauth2.member.domain.valueObject.Email;
 import com.inhabas.api.auth.domain.oauth2.socialAccount.domain.valueObject.UID;
 
+@Getter
 @Entity
 @Table(
     name = "USER_SOCIALACCOUNT",
@@ -18,6 +22,7 @@ import com.inhabas.api.auth.domain.oauth2.socialAccount.domain.valueObject.UID;
           name = "user_socialaccount_uid_provider_uindex",
           columnNames = {"PROVIDER", "UID"})
     }) //
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberSocialAccount {
 
@@ -37,12 +42,12 @@ public class MemberSocialAccount {
   @Enumerated(EnumType.STRING)
   private OAuth2Provider provider;
 
-  public UID getUid() {
-    return uid;
+  public String getUid() {
+    return uid.getValue();
   }
 
-  public Email getEmail() {
-    return email;
+  public String getEmail() {
+    return email.getValue();
   }
 
   public MemberSocialAccount(Member member, String email, String uid, OAuth2Provider provider) {
@@ -50,14 +55,6 @@ public class MemberSocialAccount {
     this.email = new Email(email);
     this.uid = new UID(uid);
     this.provider = provider;
-  }
-
-  public Long getId() {
-    return this.id;
-  }
-
-  public Member getMember() {
-    return this.member;
   }
 
   public void SetUID(UID uid) {

@@ -6,15 +6,18 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 
+import lombok.Getter;
+
 import com.inhabas.api.auth.domain.error.businessException.InvalidInputException;
 
+@Getter
 @Embeddable
 public class UID {
 
   @Column(name = "UID", nullable = false)
   private String value;
 
-  @Transient private final int MAX_SIZE = 255;
+  @Transient private static final int MAX_SIZE = 255;
 
   public UID() {}
 
@@ -30,9 +33,5 @@ public class UID {
     String o = (String) value;
     if (o.isBlank()) return false;
     return o.length() <= MAX_SIZE;
-  }
-
-  public String getValue() {
-    return value;
   }
 }
