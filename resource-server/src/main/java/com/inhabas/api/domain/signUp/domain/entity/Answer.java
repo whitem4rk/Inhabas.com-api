@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.inhabas.api.auth.domain.oauth2.member.domain.entity.Member;
 import com.inhabas.api.domain.BaseEntity;
 import com.inhabas.api.domain.questionnaire.domain.Questionnaire;
@@ -19,6 +21,7 @@ import com.inhabas.api.domain.questionnaire.domain.Questionnaire;
           columnNames = {"USER_ID", "QUESTIONNAIRE_ID"})
     })
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Answer extends BaseEntity {
   @Id
@@ -38,7 +41,7 @@ public class Answer extends BaseEntity {
   @Column(name = "CONTENT", length = 1000)
   private String content;
 
-  public void setContent(String content) {
+  public void writeContent(String content) {
     this.content = content;
   }
 

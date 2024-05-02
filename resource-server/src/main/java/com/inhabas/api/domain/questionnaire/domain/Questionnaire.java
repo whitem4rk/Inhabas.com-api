@@ -6,9 +6,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Entity
 @Getter
 @Table(name = "QUESTIONNAIRE")
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Questionnaire {
 
@@ -16,7 +19,7 @@ public class Questionnaire {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "QUESTION", nullable = false)
+  @Column(name = "QUESTION", length = 255, nullable = false)
   private String question;
 
   public Questionnaire(Long id, String question) {

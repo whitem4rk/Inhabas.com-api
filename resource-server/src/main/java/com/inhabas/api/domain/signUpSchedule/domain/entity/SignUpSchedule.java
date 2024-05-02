@@ -8,6 +8,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.inhabas.api.auth.domain.error.ErrorCode;
 import com.inhabas.api.domain.signUpSchedule.exception.InvalidDateException;
 
@@ -20,6 +22,7 @@ import com.inhabas.api.domain.signUpSchedule.exception.InvalidDateException;
 @Entity
 @Getter
 @Table(name = "SIGNUP_SCHEDULE")
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SignUpSchedule {
 
@@ -70,12 +73,12 @@ public class SignUpSchedule {
       LocalDateTime interviewEndDate,
       LocalDateTime resultAnnounceDate) {
     this.generation = generation;
-    setSignUpDate(signupStartDate, signupEndDate);
-    setInterviewDate(interviewStartDate, interviewEndDate);
-    setResultAnnounceDate(signupEndDate, interviewEndDate, resultAnnounceDate);
+    updateSignUpDate(signupStartDate, signupEndDate);
+    updateInterviewDate(interviewStartDate, interviewEndDate);
+    updateResultAnnounceDate(signupEndDate, interviewEndDate, resultAnnounceDate);
   }
 
-  private void setSignUpDate(LocalDateTime signupStartDate, LocalDateTime signupEndDate) {
+  private void updateSignUpDate(LocalDateTime signupStartDate, LocalDateTime signupEndDate) {
     if (signupEndDate.isAfter(signupStartDate)) {
       this.signupStartDate = signupStartDate;
       this.signupEndDate = signupEndDate;
@@ -84,7 +87,8 @@ public class SignUpSchedule {
     }
   }
 
-  private void setInterviewDate(LocalDateTime interviewStartDate, LocalDateTime interviewEndDate) {
+  private void updateInterviewDate(
+      LocalDateTime interviewStartDate, LocalDateTime interviewEndDate) {
     if (interviewEndDate.isAfter(interviewStartDate)) {
       this.interviewStartDate = interviewStartDate;
       this.interviewEndDate = interviewEndDate;
@@ -93,7 +97,7 @@ public class SignUpSchedule {
     }
   }
 
-  private void setResultAnnounceDate(
+  private void updateResultAnnounceDate(
       LocalDateTime signupEndDate,
       LocalDateTime interviewEndDate,
       LocalDateTime resultAnnounceDate) {

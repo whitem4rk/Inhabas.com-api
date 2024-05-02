@@ -60,7 +60,7 @@ public class AnswerServiceImpl implements AnswerService {
 
                   Answer existingAnswer = existingAnswers.get(dto.getQuestionId());
                   if (existingAnswer != null) {
-                    existingAnswer.setContent(dto.getContent());
+                    existingAnswer.writeContent(dto.getContent());
                     return existingAnswer;
                   } else {
                     return new Answer(currentMember, questionnaire, dto.getContent());
