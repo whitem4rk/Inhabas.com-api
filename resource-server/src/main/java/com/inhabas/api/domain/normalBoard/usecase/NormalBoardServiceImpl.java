@@ -105,7 +105,7 @@ public class NormalBoardServiceImpl implements NormalBoardService {
         .dateUpdated(normalBoard.getDateUpdated())
         .images(classifiedFiles.getImages())
         .otherFiles(classifiedFiles.getOtherFiles())
-        .isPinned(normalBoard.getPinned())
+        .isPinned(normalBoard.getIsPinned())
         .build();
   }
 

@@ -1,5 +1,7 @@
 package com.inhabas.api.domain.normalBoard.repository;
 
+import static com.inhabas.api.auth.domain.oauth2.member.domain.entity.QMember.member;
+import static com.inhabas.api.domain.file.domain.QBoardFile.boardFile;
 import static com.inhabas.api.domain.normalBoard.domain.QNormalBoard.normalBoard;
 
 import java.time.LocalDateTime;
@@ -11,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import com.inhabas.api.domain.normalBoard.domain.NormalBoard;
 import com.inhabas.api.domain.normalBoard.domain.NormalBoardType;
 import com.inhabas.api.domain.normalBoard.dto.NormalBoardDto;
-import com.querydsl.core.types.Projections;
+import com.inhabas.api.domain.normalBoard.dto.QNormalBoardDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -24,8 +26,7 @@ public class NormalBoardRepositoryImpl implements NormalBoardRepositoryCustom {
   public List<NormalBoardDto> findAllByTypeAndIsPinned(NormalBoardType boardType) {
     return queryFactory
         .select(
-            Projections.constructor(
-                NormalBoardDto.class,
+            new QNormalBoardDto(
                 normalBoard.id,
                 normalBoard.title.value,
                 normalBoard.writer.id,
@@ -35,6 +36,8 @@ public class NormalBoardRepositoryImpl implements NormalBoardRepositoryCustom {
                 normalBoard.dateUpdated,
                 normalBoard.isPinned))
         .from(normalBoard)
+        .leftJoin(normalBoard.writer, member)
+        .fetchJoin()
         .where(
             eqNormalBoardType(boardType)
                 .and(normalBoard.isPinned.isTrue())
@@ -48,8 +51,7 @@ public class NormalBoardRepositoryImpl implements NormalBoardRepositoryCustom {
       Long memberId, NormalBoardType boardType, String search) {
     return queryFactory
         .select(
-            Projections.constructor(
-                NormalBoardDto.class,
+            new QNormalBoardDto(
                 normalBoard.id,
                 normalBoard.title.value,
                 normalBoard.writer.id,
@@ -59,6 +61,8 @@ public class NormalBoardRepositoryImpl implements NormalBoardRepositoryCustom {
                 normalBoard.dateUpdated,
                 normalBoard.isPinned))
         .from(normalBoard)
+        .leftJoin(normalBoard.writer, member)
+        .fetchJoin()
         .where(
             eqMemberId(memberId)
                 .and(eqNormalBoardType(boardType))
@@ -71,8 +75,7 @@ public class NormalBoardRepositoryImpl implements NormalBoardRepositoryCustom {
   public List<NormalBoardDto> findAllByTypeAndSearch(NormalBoardType boardType, String search) {
     return queryFactory
         .select(
-            Projections.constructor(
-                NormalBoardDto.class,
+            new QNormalBoardDto(
                 normalBoard.id,
                 normalBoard.title.value,
                 normalBoard.writer.id,
@@ -82,6 +85,8 @@ public class NormalBoardRepositoryImpl implements NormalBoardRepositoryCustom {
                 normalBoard.dateUpdated,
                 normalBoard.isPinned))
         .from(normalBoard)
+        .leftJoin(normalBoard.writer, member)
+        .fetchJoin()
         .where(eqNormalBoardType(boardType).and(likeTitle(search).or(likeContent(search))))
         .orderBy(normalBoard.dateCreated.desc())
         .fetch();
@@ -93,6 +98,10 @@ public class NormalBoardRepositoryImpl implements NormalBoardRepositoryCustom {
     return Optional.ofNullable(
         queryFactory
             .selectFrom(normalBoard)
+            .leftJoin(normalBoard.writer, member)
+            .fetchJoin()
+            .leftJoin(normalBoard.files, boardFile)
+            .fetchJoin()
             .where(
                 eqMemberId(memberId)
                     .and(eqNormalBoardType(boardType))
