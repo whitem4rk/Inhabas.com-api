@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.inhabas.api.domain.menu.domain.valueObject.MenuType;
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @NoArgsConstructor
@@ -34,6 +35,7 @@ public class MyBoardDto {
   @Schema(type = "string", example = "2024-11-01T00:00:00")
   private LocalDateTime dateCreated;
 
+  @QueryProjection
   @Builder
   public MyBoardDto(
       Long id,

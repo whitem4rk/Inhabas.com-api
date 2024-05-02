@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.inhabas.api.auth.domain.oauth2.member.domain.valueObject.RequestStatus;
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Getter
@@ -36,6 +37,7 @@ public class MyBudgetSupportApplicationDto {
   @Schema(type = "string", example = "2024-11-01T00:00:00")
   private LocalDateTime dateDeposited;
 
+  @QueryProjection
   @Builder
   public MyBudgetSupportApplicationDto(
       Long id,

@@ -3,6 +3,7 @@ package com.inhabas.api.domain.myInfo.repository;
 import static com.inhabas.api.domain.board.domain.QBaseBoard.baseBoard;
 import static com.inhabas.api.domain.budget.domain.QBudgetSupportApplication.budgetSupportApplication;
 import static com.inhabas.api.domain.comment.domain.QComment.comment;
+import static com.inhabas.api.domain.menu.domain.QMenu.menu;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +16,8 @@ import com.inhabas.api.domain.comment.domain.Comment;
 import com.inhabas.api.domain.myInfo.dto.MyBoardDto;
 import com.inhabas.api.domain.myInfo.dto.MyBudgetSupportApplicationDto;
 import com.inhabas.api.domain.myInfo.dto.MyCommentDto;
-import com.querydsl.core.types.Projections;
+import com.inhabas.api.domain.myInfo.dto.QMyBoardDto;
+import com.inhabas.api.domain.myInfo.dto.QMyBudgetSupportApplicationDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @RequiredArgsConstructor
@@ -27,8 +29,7 @@ public class MyInfoRepositoryImpl implements MyInfoRepositoryCustom {
   public List<MyBoardDto> findAllBoardsByMemberId(Long memberId) {
     return queryFactory
         .select(
-            Projections.constructor(
-                MyBoardDto.class,
+            new QMyBoardDto(
                 baseBoard.id,
                 baseBoard.menu.id,
                 baseBoard.menu.type,
@@ -36,6 +37,8 @@ public class MyInfoRepositoryImpl implements MyInfoRepositoryCustom {
                 baseBoard.title.value,
                 baseBoard.dateCreated))
         .from(baseBoard)
+        .leftJoin(baseBoard.menu, menu)
+        .fetchJoin()
         .where(
             baseBoard
                 .writer
@@ -53,6 +56,10 @@ public class MyInfoRepositoryImpl implements MyInfoRepositoryCustom {
     List<Comment> comments =
         queryFactory
             .selectFrom(comment)
+            .leftJoin(comment.parentBoard, baseBoard)
+            .fetchJoin()
+            .leftJoin(baseBoard.menu, menu)
+            .fetchJoin()
             .where(comment.writer.id.eq(memberId))
             .orderBy(comment.dateCreated.desc())
             .fetch();
@@ -75,8 +82,7 @@ public class MyInfoRepositoryImpl implements MyInfoRepositoryCustom {
       Long memberId) {
     return queryFactory
         .select(
-            Projections.constructor(
-                MyBudgetSupportApplicationDto.class,
+            new QMyBudgetSupportApplicationDto(
                 budgetSupportApplication.id,
                 budgetSupportApplication.status,
                 budgetSupportApplication.title.value,
