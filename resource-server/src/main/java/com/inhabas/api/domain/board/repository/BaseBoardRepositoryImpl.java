@@ -28,6 +28,7 @@ public class BaseBoardRepositoryImpl implements BaseBoardRepositoryCustom {
                 baseBoard.id.count().intValue()))
         .from(menu)
         .leftJoin(baseBoard)
+        .fetchJoin()
         .on(menu.id.eq(baseBoard.menu.id))
         .where(menu.menuGroup.id.eq(menuGroupId))
         .groupBy(menu.name)

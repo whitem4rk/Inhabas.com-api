@@ -1,6 +1,7 @@
 package com.inhabas.api.domain.board.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.*;
@@ -67,6 +68,10 @@ public abstract class BaseBoard extends BaseEntity {
 
   public String getTitle() {
     return title.getValue();
+  }
+
+  public List<BoardFile> getFiles() {
+    return Collections.unmodifiableList(files);
   }
 
   public BaseBoard(String title, Menu menu) {
